@@ -1,0 +1,31 @@
+# Pastas geradas pelo Unity
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/.utmp/
+
+# Arquivos temporários e de log
+*.log
+*.suo
+*.user
+*.userprefs
+*.pid
+
+# Arquivos do Blender (se usar modelos diretos, o .blend1 não precisa ser versionado)
+*.blend1
+*.blend1.meta
+
+# Capturas de memória (podem ser muito grandes)
+MemoryCaptures/
+
+# Pastas de IDEs (opcional, dependendo do que usa)
+.vs/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.unityproj
