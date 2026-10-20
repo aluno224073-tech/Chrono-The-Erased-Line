@@ -29,3 +29,5 @@ MemoryCaptures/
 *.sln
 *.suo
 *.unityproj
+
+.fake
