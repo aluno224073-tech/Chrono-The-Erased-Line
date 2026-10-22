@@ -61,10 +61,14 @@ public class PlayerMovement : MonoBehaviour
         Keyboard keyboard = Keyboard.current;
         Mouse mouse = Mouse.current;
 
+        if (keyboard.f11Key.wasPressedThisFrame)
+        {
+            Screen.fullScreen = !Screen.fullScreen;
+        }
+
         if (keyboard == null || playerCamera == null)
             return;
 
-        // Movimento WASD
         movementInput = Vector2.zero;
 
         if (keyboard.wKey.isPressed)
@@ -83,17 +87,14 @@ public class PlayerMovement : MonoBehaviour
             movementInput, 1f
         );
 
-        // Agachar com Shift esquerdo
         isCrouching = keyboard.leftShiftKey.isPressed;
 
-        // Saltar com Espaço
         if (keyboard.spaceKey.wasPressedThisFrame &&
             canMove && !isCrouching)
         {
             jumpRequested = true;
         }
 
-        // Câmara
         if (mouse != null && canMove)
         {
             Vector2 mouseDelta = mouse.delta.ReadValue();
@@ -118,7 +119,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Rotação horizontal do jogador
         if (canMove)
         {
             rb.MoveRotation(
