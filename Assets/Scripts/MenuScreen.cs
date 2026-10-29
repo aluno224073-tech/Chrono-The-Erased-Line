@@ -1,18 +1,36 @@
+//using System.Diagnostics;
 using UnityEngine;
 
-public class NewGame : MonoBehaviour
+public class MenuScreen : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
-    
+    public void NewGame()
+    {
+        Debug.Log("funcional");
+    }
+
+    public void LoadGame()
+    {
+        Debug.Log("carregou");
+    }
+
+    public void Options()
+    {
+        Debug.Log("Opções");
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Saíu");
+    }
+  
 }

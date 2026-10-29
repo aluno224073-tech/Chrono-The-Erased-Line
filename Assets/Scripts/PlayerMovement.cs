@@ -1,4 +1,5 @@
-
+using System.Security.AccessControl;
+using System.Threading.Tasks.Dataflow;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,29 +11,28 @@ public class PlayerMovement : MonoBehaviour
     public Camera playerCamera;
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
-
     [Header("Movement")]
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
     public float jumpPower = 7f;
-
     [Header("Crouch")]
     public float defaultHeight = 2f;
     public float crouchHeight = 1f;
     public float crouchSpeed = 3f;
-
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
-
     private float rotationX;
     private float originalCenterY;
     private float mouseX;
-
     private bool canMove = true;
     private bool isCrouching;
     private bool jumpRequested;
-
     private Vector2 movementInput;
+    private string past = "Passado";
+    private string future = "Futuro";
+    private string present = "Presente";
+    [SerializeField] private Canvas Canvas;
+
 
     void Awake()
     {
@@ -60,6 +60,24 @@ public class PlayerMovement : MonoBehaviour
     {
         Keyboard keyboard = Keyboard.current;
         Mouse mouse = Mouse.current;
+        InputSystem.EnableDevice(Mouse.current);
+        InputSystem.EnableDevice(Keyboard.current);
+
+        if (Canvas.enabled == true)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if (Canvas.enabled == false)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        if (keyboard.f3Key.wasPressedThisFrame)
+        {
+            Canvas.enabled = !Canvas.enabled;
+        }
 
         if (keyboard.f11Key.wasPressedThisFrame)
         {
@@ -115,6 +133,19 @@ public class PlayerMovement : MonoBehaviour
         }
 
         HandleCrouch();
+
+        if (keyboard.tKey.isPressed && keyboard.leftArrowKey.isPressed)
+        {
+            saltoTemporal(past);
+        }
+        else if(keyboard.tKey.isPressed && keyboard.rightArrowKey.isPressed)
+        {
+            saltoTemporal(future);
+        }
+        else if (keyboard.tKey.isPressed)
+        {
+            saltoTemporal(present);
+        }
     }
 
     void FixedUpdate()
@@ -229,5 +260,21 @@ public class PlayerMovement : MonoBehaviour
                 (defaultHeight - capsuleCollider.height) / 2f,
             capsuleCollider.center.z
         );
+    }
+
+    private void saltoTemporal(string when)
+    {
+        if(when == past)
+        {
+            
+        }
+        else if(when == present)
+        {
+            
+        }
+        else if(when == future)
+        {
+            
+        }
     }
 }
