@@ -1,7 +1,9 @@
+// using System.Diagnostics;
 using System.Security.AccessControl;
 using System.Threading.Tasks.Dataflow;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
@@ -32,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private string future = "Futuro";
     private string present = "Presente";
     [SerializeField] private Canvas Canvas;
+    Scene cenaAtual;
 
 
     void Awake()
@@ -50,18 +53,23 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        cenaAtual = SceneManager.GetActiveScene();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         capsuleCollider.height = defaultHeight;
+
+        if(cenaAtual.name != "SampleScene")
+        {
+            Canvas.enabled = false;
+        }
     }
 
     void Update()
     {
         Keyboard keyboard = Keyboard.current;
         Mouse mouse = Mouse.current;
-        InputSystem.EnableDevice(Mouse.current);
-        InputSystem.EnableDevice(Keyboard.current);
 
         if (Canvas.enabled == true)
         {
@@ -74,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
             Cursor.visible = false;
         }
 
-        if (keyboard.f3Key.wasPressedThisFrame)
+        if (keyboard.f3Key.wasPressedThisFrame && cenaAtual.name == "SampleScene")
         {
             Canvas.enabled = !Canvas.enabled;
         }
@@ -142,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
         {
             saltoTemporal(future);
         }
-        else if (keyboard.tKey.isPressed)
+        else if (keyboard.tKey.isPressed && keyboard.upArrowKey.isPressed)
         {
             saltoTemporal(present);
         }
@@ -266,15 +274,36 @@ public class PlayerMovement : MonoBehaviour
     {
         if(when == past)
         {
-            
+            if(cenaAtual.name != "Past")
+            {
+                SceneManager.LoadScene("Past");
+            }
+            else
+            {
+                Debug.Log("A cena atual já é o passado");
+            }
         }
         else if(when == present)
         {
-            
+            if(cenaAtual.name != "SampleScene")
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
+            else
+            {
+                Debug.Log("A cena atual já é o presente");
+            }
         }
         else if(when == future)
         {
-            
+            if(cenaAtual.name != "Future")
+            {
+                SceneManager.LoadScene("Future");
+            }
+            else
+            {
+                Debug.Log("A cena atual já é o futuro");
+            }
         }
     }
 }
