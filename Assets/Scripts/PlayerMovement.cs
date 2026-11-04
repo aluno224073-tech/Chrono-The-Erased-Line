@@ -7,8 +7,14 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(coordinates))]
 public class PlayerMovement : MonoBehaviour
 {
+    private static Vector3 pendingPosition;
+    private static Quaternion pendingRotation;
+    private static bool hasPendingPosition;
+    private static bool hasPendingRotation;
+
     [Header("Camera")]
     public Camera playerCamera;
     public float lookSpeed = 2f;
@@ -42,6 +48,18 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
+        CharacterController characterController = GetComponent<CharacterController>();
+        if (characterController != null)
+        {
+            characterController.enabled = false;
+        }
+
+        foreach (Collider childCollider in GetComponentsInChildren<Collider>())
+        {
+            if (childCollider != capsuleCollider)
+                childCollider.enabled = false;
+        }
+
         if (playerCamera == null)
             playerCamera = GetComponentInChildren<Camera>();
 
@@ -54,6 +72,24 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         cenaAtual = SceneManager.GetActiveScene();
+
+        if (hasPendingPosition)
+        {
+            GetComponent<coordinates>().updatePosition(
+                pendingPosition.x,
+                pendingPosition.y,
+                pendingPosition.z
+            );
+            hasPendingPosition = false;
+        }
+
+        if (hasPendingRotation)
+        {
+            GetComponent<coordinates>().updateRotation(
+                pendingRotation
+            );
+            hasPendingRotation = false;
+        }
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -274,36 +310,30 @@ public class PlayerMovement : MonoBehaviour
     {
         if(when == past)
         {
-            if(cenaAtual.name != "Past")
-            {
-                SceneManager.LoadScene("Past");
-            }
-            else
-            {
-                Debug.Log("A cena atual já é o passado");
-            }
+            LoadSceneAtPosition("Past");
         }
         else if(when == present)
         {
-            if(cenaAtual.name != "SampleScene")
-            {
-                SceneManager.LoadScene("SampleScene");
-            }
-            else
-            {
-                Debug.Log("A cena atual já é o presente");
-            }
+            LoadSceneAtPosition("SampleScene");
         }
         else if(when == future)
         {
-            if(cenaAtual.name != "Future")
-            {
-                SceneManager.LoadScene("Future");
-            }
-            else
-            {
-                Debug.Log("A cena atual já é o futuro");
-            }
+            LoadSceneAtPosition("Future");
         }
+    }
+
+    private void LoadSceneAtPosition(string sceneName)
+    {
+        if (cenaAtual.name == sceneName)
+        {
+            Debug.Log($"A cena atual já é {sceneName}");
+            return;
+        }
+
+        pendingPosition = transform.position;
+        pendingRotation = transform.rotation;
+        hasPendingPosition = true;
+        hasPendingRotation = true;
+        SceneManager.LoadScene(sceneName);
     }
 }
