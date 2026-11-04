@@ -150,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
         {
             saltoTemporal(future);
         }
-        else if (keyboard.tKey.isPressed && keyboard.upArrowKey.isPressed)
+        else if (keyboard.tKey.isPressed && keyboard.enterKey.isPressed)
         {
             saltoTemporal(present);
         }
