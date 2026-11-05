@@ -1,7 +1,7 @@
 Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --platform=Windows
 --minimum-os-version=
---backend=burst-llvm-19
+--backend=burst-llvm-21
 --target=X64_SSE2
 --global-safety-checks-setting=Off
 --disable-safety-checks
@@ -13,7 +13,7 @@ Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutp
 --linker-options=PdbAltPath="Chrono The Erased Line_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\Burst
---key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.75f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
+--key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.85f2/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Library\Burst
 --output=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
@@ -22,7 +22,7 @@ Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutp
 --method=Unity.Jobs.IJobForExtensions+ForJobStruct`1[[UnityEngine.Rendering.Universal.TileRangeExpansionJob, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.Rendering.Universal.TileRangeExpansionJob&, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--adceb2156d08d59afc9749dc2521fd2b
 --platform=Windows
 --minimum-os-version=
---backend=burst-llvm-19
+--backend=burst-llvm-21
 --target=AVX2
 --global-safety-checks-setting=Off
 --disable-safety-checks
@@ -34,7 +34,7 @@ Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutp
 --linker-options=PdbAltPath="Chrono The Erased Line_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\Burst
---key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.75f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
+--key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.85f2/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Library\Burst
 --output=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
@@ -43,7 +43,7 @@ Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutp
 --method=Unity.Jobs.IJobForExtensions+ForJobStruct`1[[UnityEngine.Rendering.Universal.TileRangeExpansionJob, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.Rendering.Universal.TileRangeExpansionJob&, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--adceb2156d08d59afc9749dc2521fd2b
 --platform=Windows
 --minimum-os-version=
---backend=burst-llvm-19
+--backend=burst-llvm-21
 --target=X64_SSE2
 --global-safety-checks-setting=Off
 --meta-data-generation=False
@@ -53,7 +53,7 @@ Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutp
 --linker-options=PdbAltPath="Chrono The Erased Line_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\Burst
---key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.75f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
+--key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.85f2/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Library\Burst
 --output=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
@@ -154,7 +154,7 @@ Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutp
 --method=Unity.Jobs.IJobExtensions+JobStruct`1[[Unity.Collections.NativeStream+ConstructJob, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(Unity.Collections.NativeStream+ConstructJob&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--b78f808503c8b5fe97a83e833bd5871d
 --platform=Windows
 --minimum-os-version=
---backend=burst-llvm-19
+--backend=burst-llvm-21
 --target=AVX2
 --global-safety-checks-setting=Off
 --meta-data-generation=False
@@ -164,7 +164,7 @@ Library: C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutp
 --linker-options=PdbAltPath="Chrono The Erased Line_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\Burst
---key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.75f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
+--key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.85f2/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Library\Burst
 --output=C:\Users\a1b2c\Desktop\school\PAP\Chrono The Erased Line\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/

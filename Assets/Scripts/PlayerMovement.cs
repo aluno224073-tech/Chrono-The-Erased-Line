@@ -11,15 +11,18 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     private static Vector3 pendingPosition;
+    private static Quaternion pendingCameraRotation;
     private static Quaternion pendingRotation;
     private static bool hasPendingPosition;
     private static bool hasPendingRotation;
+    private static bool hasPendingCameraRotation;
 
     [Header("Camera")]
     public Camera playerCamera;
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
     [Header("Movement")]
+
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
     public float jumpPower = 7f;
@@ -41,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
     private string present = "Presente";
     [SerializeField] private Canvas Canvas;
     Scene cenaAtual;
+    public GameObject[] gameObjects;
+    private bool ObjectHasPendingPosition;
 
 
     void Awake()
@@ -75,21 +80,34 @@ public class PlayerMovement : MonoBehaviour
 
         if (hasPendingPosition)
         {
-            GetComponent<coordinates>().updatePosition(
-                pendingPosition.x,
-                pendingPosition.y,
-                pendingPosition.z
-            );
+            GetComponent<coordinates>().updatePosition(pendingPosition.x, pendingPosition.y, pendingPosition.z);
             hasPendingPosition = false;
+            Canvas.enabled = false;
         }
 
         if (hasPendingRotation)
         {
-            GetComponent<coordinates>().updateRotation(
-                pendingRotation
-            );
+            GetComponent<coordinates>().updateRotation(pendingRotation);
             hasPendingRotation = false;
         }
+
+        if (hasPendingCameraRotation)
+        {
+            playerCamera.transform.rotation = pendingCameraRotation;
+            rotationX = Mathf.DeltaAngle(0f, playerCamera.transform.localEulerAngles.x);
+
+            hasPendingCameraRotation = false;
+        }
+
+        // if(ObjectHasPendingPosition)
+        // {
+        //     for (int i = 0; i < gameObjects.Length; i++)
+        //     {
+        //         gameObjects[i].transform.position = ObjectPendingPosition[i];
+        //         gameObjects[i].transform.rotation = ObjectPendingRotation[i];
+        //     }
+        //     ObjectHasPendingPosition = false;
+        // }
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -330,6 +348,29 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // if(cenaAtual.name == "Past")
+        // {
+        //     for (int i = 0; i < gameObjects.Length; i++)
+        //     {
+        //         gameObjects[i].Objectposition = new Vector3(gameObjects[i].transform.position.x, gameObjects[i].transform.position.y, gameObjects[i].transform.position.z);
+        //         gameObjects[i].Objectrotation = new Quaternion(gameObjects[i].transform.rotation.x, gameObjects[i].transform.rotation.y, gameObjects[i].transform.rotation.z, gameObjects[i].transform.rotation.w);
+        //         ObjectPendingPosition[i] = gameObjects[i].Objectposition;
+        //         ObjectPendingRotation[i] = gameObjects[i].Objectrotation;
+        //     }
+        //     ObjectHasPendingPosition = true;
+        // }
+        // else if(sceneName != "Past" && cenaAtual.name == "SampleScene")
+        // {
+        //     for (int i = 0; i < gameObjects.Length; i++)
+        //     {
+        //         ObjectPendingPosition[i] = gameObjects[i].Objectposition;
+        //         ObjectPendingRotation[i] = gameObjects[i].Objectrotation;
+        //     }
+        //     ObjectHasPendingPosition = true;
+        // }
+
+        pendingCameraRotation = playerCamera.transform.rotation;
+        hasPendingCameraRotation = true;
         pendingPosition = transform.position;
         pendingRotation = transform.rotation;
         hasPendingPosition = true;
