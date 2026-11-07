@@ -1,32 +1,39 @@
 // using System.Diagnostics;
-using System.Security.AccessControl;
-using System.Threading.Tasks.Dataflow;
+// using System.Security.AccessControl;
+// using System.Threading.Tasks.Dataflow;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(coordinates))]
 public class PlayerMovement : MonoBehaviour
 {
+    private class ObjectTransformSnapshot
+    {
+        public Vector3[] positions;
+        public Quaternion[] rotations;
+    }
+
+    private static readonly Dictionary<string, ObjectTransformSnapshot> savedObjectTransformsByScene =
+        new Dictionary<string, ObjectTransformSnapshot>();
     private static Vector3 pendingPosition;
+    private static Vector3[] pendingObjectPositions;
+    private static Quaternion[] pendingObjectRotations;
+    private static bool hasPendingObjectTransforms;
     private static Quaternion pendingCameraRotation;
     private static Quaternion pendingRotation;
     private static bool hasPendingPosition;
     private static bool hasPendingRotation;
     private static bool hasPendingCameraRotation;
-
-    [Header("Camera")]
     public Camera playerCamera;
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
-    [Header("Movement")]
-
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
     public float jumpPower = 7f;
-    [Header("Crouch")]
     public float defaultHeight = 2f;
     public float crouchHeight = 1f;
     public float crouchSpeed = 3f;
@@ -44,8 +51,9 @@ public class PlayerMovement : MonoBehaviour
     private string present = "Presente";
     [SerializeField] private Canvas Canvas;
     Scene cenaAtual;
+    Scene cenaPassada;
     public GameObject[] gameObjects;
-    private bool ObjectHasPendingPosition;
+    public string[] tagsDeExcecao;
 
 
     void Awake()
@@ -99,15 +107,7 @@ public class PlayerMovement : MonoBehaviour
             hasPendingCameraRotation = false;
         }
 
-        // if(ObjectHasPendingPosition)
-        // {
-        //     for (int i = 0; i < gameObjects.Length; i++)
-        //     {
-        //         gameObjects[i].transform.position = ObjectPendingPosition[i];
-        //         gameObjects[i].transform.rotation = ObjectPendingRotation[i];
-        //     }
-        //     ObjectHasPendingPosition = false;
-        // }
+        RestoreObjectsInCurrentScene();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -199,14 +199,17 @@ public class PlayerMovement : MonoBehaviour
         if (keyboard.tKey.isPressed && keyboard.leftArrowKey.isPressed)
         {
             saltoTemporal(past);
+            cenaPassada = cenaAtual;
         }
         else if(keyboard.tKey.isPressed && keyboard.rightArrowKey.isPressed)
         {
             saltoTemporal(future);
+            cenaPassada = cenaAtual;
         }
         else if (keyboard.tKey.isPressed && keyboard.enterKey.isPressed)
         {
             saltoTemporal(present);
+            cenaPassada = cenaAtual;
         }
     }
 
@@ -348,26 +351,9 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // if(cenaAtual.name == "Past")
-        // {
-        //     for (int i = 0; i < gameObjects.Length; i++)
-        //     {
-        //         gameObjects[i].Objectposition = new Vector3(gameObjects[i].transform.position.x, gameObjects[i].transform.position.y, gameObjects[i].transform.position.z);
-        //         gameObjects[i].Objectrotation = new Quaternion(gameObjects[i].transform.rotation.x, gameObjects[i].transform.rotation.y, gameObjects[i].transform.rotation.z, gameObjects[i].transform.rotation.w);
-        //         ObjectPendingPosition[i] = gameObjects[i].Objectposition;
-        //         ObjectPendingRotation[i] = gameObjects[i].Objectrotation;
-        //     }
-        //     ObjectHasPendingPosition = true;
-        // }
-        // else if(sceneName != "Past" && cenaAtual.name == "SampleScene")
-        // {
-        //     for (int i = 0; i < gameObjects.Length; i++)
-        //     {
-        //         ObjectPendingPosition[i] = gameObjects[i].Objectposition;
-        //         ObjectPendingRotation[i] = gameObjects[i].Objectrotation;
-        //     }
-        //     ObjectHasPendingPosition = true;
-        // }
+        bool deveTransferirObjetos = (cenaAtual.name == "Past" && (sceneName == "SampleScene" || sceneName == "Future")) || (cenaAtual.name == "SampleScene" && sceneName == "Future");
+
+        SaveObjectsInCurrentScene(deveTransferirObjetos);
 
         pendingCameraRotation = playerCamera.transform.rotation;
         hasPendingCameraRotation = true;
@@ -376,5 +362,95 @@ public class PlayerMovement : MonoBehaviour
         hasPendingPosition = true;
         hasPendingRotation = true;
         SceneManager.LoadScene(sceneName);
+    }
+
+    private void SaveObjectsInCurrentScene(bool shouldTransferObjects)
+    {
+        if (gameObjects == null)
+        {
+            hasPendingObjectTransforms = false;
+            return;
+        }
+
+        ObjectTransformSnapshot snapshot = new ObjectTransformSnapshot
+        {
+            positions = new Vector3[gameObjects.Length],
+            rotations = new Quaternion[gameObjects.Length]
+        };
+
+        for (int i = 0; i < gameObjects.Length; i++)
+        {
+            if (gameObjects[i] == null)
+                continue;
+
+            snapshot.positions[i] = gameObjects[i].transform.position;
+            snapshot.rotations[i] = gameObjects[i].transform.rotation;
+        }
+
+        savedObjectTransformsByScene[cenaAtual.name] = snapshot;
+
+        hasPendingObjectTransforms = shouldTransferObjects;
+        if (shouldTransferObjects)
+        {
+            pendingObjectPositions = snapshot.positions;
+            pendingObjectRotations = snapshot.rotations;
+        }
+    }
+
+    private void RestoreObjectsInCurrentScene()
+    {
+        if (gameObjects == null)
+            return;
+
+        if (savedObjectTransformsByScene.TryGetValue(cenaAtual.name, out ObjectTransformSnapshot savedSnapshot))
+        {
+            ApplyObjectTransformSnapshot(savedSnapshot.positions, savedSnapshot.rotations, false);
+        }
+
+        if (hasPendingObjectTransforms && pendingObjectPositions != null && pendingObjectRotations != null)
+        {
+            ApplyObjectTransformSnapshot(pendingObjectPositions, pendingObjectRotations, true);
+        }
+
+        hasPendingObjectTransforms = false;
+
+        ObjectTransformSnapshot currentSnapshot = new ObjectTransformSnapshot
+        {
+            positions = new Vector3[gameObjects.Length],
+            rotations = new Quaternion[gameObjects.Length]
+        };
+
+        for (int i = 0; i < gameObjects.Length; i++)
+        {
+            if (gameObjects[i] == null)
+                continue;
+
+            currentSnapshot.positions[i] = gameObjects[i].transform.position;
+            currentSnapshot.rotations[i] = gameObjects[i].transform.rotation;
+        }
+
+        savedObjectTransformsByScene[cenaAtual.name] = currentSnapshot;
+    }
+
+    private void ApplyObjectTransformSnapshot(Vector3[] positions, Quaternion[] rotations, bool respectExceptionTags)
+    {
+        if (positions == null || rotations == null)
+            return;
+
+        int count = Mathf.Min(gameObjects.Length, positions.Length, rotations.Length);
+
+        for (int i = 0; i < count; i++)
+        {
+            if (gameObjects[i] == null)
+                continue;
+
+            bool isException = respectExceptionTags && tagsDeExcecao != null &&
+                System.Array.IndexOf(tagsDeExcecao, gameObjects[i].tag) >= 0;
+
+            if (isException) continue;
+
+            gameObjects[i].transform.position = positions[i];
+            gameObjects[i].transform.rotation = rotations[i];
+        }
     }
 }

@@ -32,7 +32,7 @@ public class coordinates : MonoBehaviour
     // {
     //     for (int i = 0; i < gameObjects.Length; i++)
     //     {
-    //         gameObjects[i].transform.rotation = gameObjects[i].rotation;
+    //         gameObjects[i].transform.rotation = rotation;
     //     }
     // }
 }
